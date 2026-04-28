@@ -1,0 +1,21 @@
+name: CI/CD Tienda Perritos - Backend
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "backend/**" ]
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: rexdeadx/petstore-backend:latest

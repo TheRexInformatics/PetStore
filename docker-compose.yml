@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    build: ./db
+    container_name: petstore-db
+    restart: always
+    ports:
+      - "3306:3306"
+
+  backend:
+    build: ./backend
+    container_name: petstore-backend
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=db
+      - DB_USER=alumno
+      - DB_PASSWORD=alumno123
+      - DB_NAME=tienda_perritos
+    depends_on:
+      - db
+
+  web:
+    build: ./frontend
+    container_name: petstore-frontend
+    image: rexdeadx/petstore:latest
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
