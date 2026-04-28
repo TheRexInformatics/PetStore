@@ -1,8 +1,10 @@
-name: CI/CD Tienda Perritos - Frontend
+name: CI/CD Frontend
 on:
   push:
     branches: [ "main" ]
-    paths: [ "frontend/**" ]
+    paths:
+      - "frontend/**"
+      - "docker-compose.yml"
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -18,4 +20,4 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: rexdeadx/petstore:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/petstore:latest
